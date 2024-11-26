@@ -30,4 +30,5 @@
 
 set(FOLDER_NAME "tools")
 
-# COLMAP_ADD_EXECUTABLE(example example.cc)
+#COLMAP_ADD_EXECUTABLE(example example.cc) #TODO Frawa: I outcommented this line.
+COLMAP_ADD_EXECUTABLE(NAME example SRCS example.cc LINK_LIBS colmap)
