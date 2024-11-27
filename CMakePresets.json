@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": { "major": 3, "minor": 19 },
+    "configurePresets": [
+        {
+            "name": "default",
+            "description": "Default settings for my cmake project",
+            "hidden": false,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build_vscode",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_CUDA_ARCHITECTURES": "75",
+                "CMAKE_C_COMPILER": "/usr/bin/gcc-10",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++-10",
+                "CMAKE_CUDA_HOST_COMPILER": "/usr/bin/g++-10"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "COLMAP",
+            "configurePreset": "default",
+            "description": "",
+            "displayName": ""
+        }
+    ]
+}
