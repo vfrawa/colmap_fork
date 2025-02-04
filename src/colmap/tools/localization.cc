@@ -83,21 +83,19 @@ int RunImageRegistratorImpl(std::string input_path, std::string output_path, std
     const size_t min_num_matches =
         static_cast<size_t>(pipe_options.min_num_matches);
     
-    //TODO horiz: are the query intrinsics now already in the database?
-    //TODO horiz: do we need to choose the db images for image_names? -> probably not because it's good if we have all info also from queries in database cache so that we have query detections and matches.
     database_cache = DatabaseCache::Create(Database(database_path),
                                            min_num_matches,
                                            pipe_options.ignore_watermarks,
-                                           pipe_options.image_names); // TODO horiz: here we can choose which images to reconstruct.
+                                           pipe_options.image_names); // here we could choose which images to reconstruct.
     timer.PrintMinutes();
   }
 
   auto reconstruction = std::make_shared<Reconstruction>();
   reconstruction->Read(input_path);
+  //So far, only the db images are in the reconstruction.
 
-  //TODO horiz: check what images are in the reconstruction now and with what properties set.
   IncrementalMapper mapper(database_cache);
-  //TODO horiz: Within  mapper.BeginReconstruction, they do reconstruction.Load(database_path)
+  //Within  mapper.BeginReconstruction, they do reconstruction.Load(database_path) which also loads the query images
   mapper.BeginReconstruction(reconstruction);
 
   const auto mapper_options = pipe_options.Mapper();
@@ -166,20 +164,6 @@ int main(int argc, char** argv) {
   }
 
   RunImageRegistratorImpl(existing_db_colmap_model_path, reference_sfm, database_path);
-
-  // Create a shared pointer to the reconstruction
-//   std::shared_ptr<colmap::Reconstruction> empty_colmap_model_with_known_poses_ptr = 
-//   std::make_shared<colmap::Reconstruction>(empty_colmap_model_with_known_poses);
-
-//   colmap::IncrementalPipelineOptions options = colmap::IncrementalPipelineOptions();
-//   colmap::RunPointTriangulatorImpl(empty_colmap_model_with_known_poses_ptr, database_path, images_dir, reference_sfm, options, false, false, do_global_refinement);
-
-//   colmap::Reconstruction reference_sfm_model;
-//   reference_sfm_model.Read(reference_sfm);
-//   reference_sfm_model.WriteText(reference_sfm);
-
-//   colmap::ExportPLY(reference_sfm_model, reference_sfm + "/horizprojected3dpoints.ply", true);
-//   colmap::ExportPLY(reference_sfm_model, reference_sfm + "/3dpoints.ply", false);
 
   return EXIT_SUCCESS;
 }
